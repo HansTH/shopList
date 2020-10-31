@@ -14,9 +14,10 @@ export interface IShopItemProps {
 	handleNewShopItem: (inputText: string) => void;
 }
 
-export interface IShoppingList {
-	shopItem?: IShopItem;
+export interface IShoppingListState {
+	// shopItem?: IShopItem;
 	shoppingList?: IShopItem[];
 }
 
+export type IShoppingList = IShopItem[];
 export type toggleChecked = (shopItem: IShopItem) => void;

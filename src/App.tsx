@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import ShoppingList from './components/ShoppingList';
 import { GlobalStyled } from './styles/GlobalStyles';
-import { IShopItem } from './typescript';
+import { IShopItem, IShoppingList } from './typescript';
 
 export default function App() {
-	const [shopItems, setShopItem] = useState<IShopItem[]>([]);
+	const [shoppingList, setShoppingList] = useState<IShoppingList>([]);
 
 	const newShopItem = (inputText: string) => {
+		// create new shop item
 		const newItem: IShopItem = {
 			id: Date.now(),
 			item: inputText,
@@ -15,19 +16,25 @@ export default function App() {
 			date: Date.now(),
 		};
 
-		setShopItem([...shopItems, newItem]);
+		// add the new shop item to the shopping list
+		setShoppingList([...shoppingList, newItem]);
 	};
 
-	const toggleCheckShopItem = (shopItem: IShopItem) => {
-		const newList = shopItems.map((item) => {
+	const toggleChecked = (shopItem: IShopItem) => {
+		// map through the shopping list and when both id's matched
+		// toogle the item isCompleted property with the NOT(!) operator
+		const newList = shoppingList.map((item) => {
 			if (item.id === shopItem.id) {
 				item.isCompleted = !shopItem.isCompleted;
+				// return the other properties
 				return item;
 			}
+			// return the other shop items that don't mached
 			return item;
 		});
 
-		setShopItem(newList);
+		// replace the old shopping list with the updates list
+		setShoppingList(newList);
 	};
 
 	return (
@@ -36,8 +43,8 @@ export default function App() {
 			<Navbar handleNewShopItem={newShopItem} />
 			<div className='container'>
 				<ShoppingList
-					shoppingList={shopItems}
-					toggleCheckShopItem={toggleCheckShopItem}
+					shoppingList={shoppingList}
+					toggleChecked={toggleChecked}
 				/>
 			</div>
 		</div>
