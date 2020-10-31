@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import ShoppingList from './components/ShoppingList';
+import { GlobalStyled } from './styles/GlobalStyles';
+import { IShopItem } from './typescript';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+	const [shopItems, setShopItem] = useState<IShopItem[]>([]);
+
+	const newShopItem = (inputText: string) => {
+		const newItem: IShopItem = {
+			id: Date.now(),
+			item: inputText,
+			isCompleted: false,
+			date: Date.now(),
+		};
+
+		setShopItem([...shopItems, newItem]);
+	};
+
+	const toggleCheckShopItem = (shopItem: IShopItem) => {
+		const newList = shopItems.map((item) => {
+			if (item.id === shopItem.id) {
+				item.isCompleted = !shopItem.isCompleted;
+				return item;
+			}
+			return item;
+		});
+
+		setShopItem(newList);
+	};
+
+	return (
+		<div className='App'>
+			<GlobalStyled />
+			<Navbar handleNewShopItem={newShopItem} />
+			<div className='container'>
+				<ShoppingList
+					shoppingList={shopItems}
+					toggleCheckShopItem={toggleCheckShopItem}
+				/>
+			</div>
+		</div>
+	);
 }
-
-export default App;
