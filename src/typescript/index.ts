@@ -2,7 +2,11 @@
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement>;
 export type ButtonClickEvent = React.MouseEvent<HTMLButtonElement>;
 
-// State
+export type IShoppingList = IShopItem[];
+export type toggleChecked = (shopItem: IShopItem) => void;
+export type deleteShopItem = (shopItem: IShopItem) => void;
+
+// Interface
 export interface IShopItem {
 	id: number;
 	item: string;
@@ -15,9 +19,5 @@ export interface IShopItemProps {
 }
 
 export interface IShoppingListState {
-	// shopItem?: IShopItem;
 	shoppingList?: IShopItem[];
 }
-
-export type IShoppingList = IShopItem[];
-export type toggleChecked = (shopItem: IShopItem) => void;

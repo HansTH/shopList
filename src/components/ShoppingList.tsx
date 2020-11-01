@@ -1,15 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IShopItem, IShoppingList, toggleChecked } from '../typescript';
+import {
+	deleteShopItem,
+	IShopItem,
+	IShoppingList,
+	toggleChecked,
+} from '../typescript';
 
 import ShoppingCard from './ShoppingCard';
 
 interface IProps {
 	shoppingList: IShopItem[];
 	toggleChecked: toggleChecked;
+	deleteShopItem: deleteShopItem;
 }
 
-export default function ShoppingList({ shoppingList, toggleChecked }: IProps) {
+export default function ShoppingList({
+	shoppingList,
+	toggleChecked,
+	deleteShopItem,
+}: IProps) {
 	const checkedShoppingList: IShoppingList = [];
 	const uncheckedShoppingList: IShoppingList = [];
 
@@ -29,6 +39,7 @@ export default function ShoppingList({ shoppingList, toggleChecked }: IProps) {
 						key={item.id}
 						shopItem={item}
 						toggleChecked={toggleChecked}
+						deleteShopItem={deleteShopItem}
 					/>
 				))}
 			</>
@@ -39,6 +50,7 @@ export default function ShoppingList({ shoppingList, toggleChecked }: IProps) {
 						key={item.id}
 						shopItem={item}
 						toggleChecked={toggleChecked}
+						deleteShopItem={deleteShopItem}
 					/>
 				))}
 			</>

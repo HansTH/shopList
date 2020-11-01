@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IShopItem, toggleChecked } from '../typescript';
+import { deleteShopItem, IShopItem, toggleChecked } from '../typescript';
 
 // Icons
 import uncheckedIcon from '../assets/images/uncheckedIcon.png';
@@ -11,24 +11,29 @@ import deleteIcon from '../assets/images/deleteIcon.png';
 interface IProps {
 	shopItem: IShopItem;
 	toggleChecked: toggleChecked;
+	deleteShopItem: deleteShopItem;
 }
 
-export default function ShoppingCard({ shopItem, toggleChecked }: IProps) {
-	const handleToggleChecked = (shopItem: IShopItem) => {
-		toggleChecked(shopItem);
-	};
-
+export default function ShoppingCard({
+	shopItem,
+	toggleChecked,
+	deleteShopItem,
+}: IProps) {
 	return (
 		<ShoppingCardStyles>
 			<h2>{shopItem.item}</h2>
-			<button onClick={() => handleToggleChecked(shopItem)} type='submit'>
+			<button onClick={() => toggleChecked(shopItem)} type='submit'>
 				<img
 					src={shopItem.isCompleted ? checkedIcon : uncheckedIcon}
 					alt='unchecked icon'
 				/>
 			</button>
 			<div className='seperator' />
-			<button>
+			<button
+				onClick={
+					shopItem.isCompleted ? () => deleteShopItem(shopItem) : undefined
+				}
+			>
 				<img
 					src={shopItem.isCompleted ? deleteIcon : editIcon}
 					alt='edit icon'

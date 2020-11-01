@@ -37,6 +37,13 @@ export default function App() {
 		setShoppingList(newList);
 	};
 
+	const deleteShopItem = (shopItem: IShopItem) => {
+		// return a new array that filter out the deleted shop item
+		const newList = shoppingList.filter((item) => item.id !== shopItem.id);
+
+		setShoppingList(newList);
+	};
+
 	return (
 		<div className='App'>
 			<GlobalStyled />
@@ -45,6 +52,7 @@ export default function App() {
 				<ShoppingList
 					shoppingList={shoppingList}
 					toggleChecked={toggleChecked}
+					deleteShopItem={deleteShopItem}
 				/>
 			</div>
 		</div>
