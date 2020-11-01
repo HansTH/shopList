@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Modal from './components/modal/Modal';
 import Navbar from './components/Navbar';
 import ShoppingList from './components/ShoppingList';
 import { GlobalStyled } from './styles/GlobalStyles';
@@ -6,6 +7,7 @@ import { IShopItem, IShoppingList } from './typescript';
 
 export default function App() {
 	const [shoppingList, setShoppingList] = useState<IShoppingList>([]);
+	const [isModalOpen, setIsModalOpen] = useState(true);
 
 	const newShopItem = (inputText: string) => {
 		// create new shop item
@@ -44,6 +46,10 @@ export default function App() {
 		setShoppingList(newList);
 	};
 
+	const cancelEditShopItem = () => {
+		setIsModalOpen(false);
+	};
+
 	return (
 		<div className='App'>
 			<GlobalStyled />
@@ -55,6 +61,10 @@ export default function App() {
 					deleteShopItem={deleteShopItem}
 				/>
 			</div>
+			<Modal
+				cancelEditShopItem={cancelEditShopItem}
+				isModalOpen={isModalOpen}
+			/>
 		</div>
 	);
 }

@@ -7,6 +7,9 @@ export const GlobalStyled = createGlobalStyle`
     --white: #F1F1F1;
     --dark-green: #159588;
     --light-gray: #efefef;
+    --box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.14);
+    --border-radius: 6px;
+
   }
 
   *{
