@@ -29,7 +29,10 @@ export const GlobalStyled = createGlobalStyle`
 
   h1{
     font-size: 3rem;
-    color: blue;
+  }
+
+  h2{
+    font-size: 2rem;
   }
 
   .container{

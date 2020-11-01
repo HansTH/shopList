@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { deleteShopItem, IShopItem, toggleChecked } from '../typescript';
+import {
+	deleteShopItem,
+	getShopItem,
+	IShopItem,
+	toggleChecked,
+} from '../typescript';
 
 // Icons
 import uncheckedIcon from '../assets/images/uncheckedIcon.png';
@@ -12,12 +17,14 @@ interface IProps {
 	shopItem: IShopItem;
 	toggleChecked: toggleChecked;
 	deleteShopItem: deleteShopItem;
+	getShopItem: getShopItem;
 }
 
 export default function ShoppingCard({
 	shopItem,
 	toggleChecked,
 	deleteShopItem,
+	getShopItem,
 }: IProps) {
 	return (
 		<ShoppingCardStyles>
@@ -31,7 +38,9 @@ export default function ShoppingCard({
 			<div className='seperator' />
 			<button
 				onClick={
-					shopItem.isCompleted ? () => deleteShopItem(shopItem) : undefined
+					shopItem.isCompleted
+						? () => deleteShopItem(shopItem)
+						: () => getShopItem(shopItem)
 				}
 			>
 				<img

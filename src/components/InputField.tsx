@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import plusIcon from '../assets/images/plusIcon.png';
-import {
-	ButtonClickEvent,
-	IShopItemProps,
-	InputChangeEvent,
-} from '../typescript';
+import { ButtonClickEvent, newShopItem, InputChangeEvent } from '../typescript';
 
-export default function InputField({ handleNewShopItem }: IShopItemProps) {
+interface IProps {
+	newShopItem: newShopItem;
+}
+
+export default function InputField({ newShopItem }: IProps) {
 	const [inputText, setInputText] = useState('');
-
-	// update the inputText state when the <input/> changed
-	const handleInputChange = (e: InputChangeEvent) => {
-		setInputText(e.target.value);
-	};
 
 	function handleClick(e: ButtonClickEvent, inputText: string) {
 		e.preventDefault();
 		// submit the inputText for a new shopping item
-		handleNewShopItem(inputText);
+		newShopItem(inputText);
 		// reset the inputText state
 		setInputText('');
 	}
@@ -26,7 +21,7 @@ export default function InputField({ handleNewShopItem }: IShopItemProps) {
 	return (
 		<InputFieldStyles>
 			<input
-				onChange={(e) => handleInputChange(e)}
+				onChange={(e: InputChangeEvent) => setInputText(e.target.value)}
 				type='text'
 				value={inputText}
 				placeholder='Add new shopping item'

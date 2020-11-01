@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import {
 	deleteShopItem,
+	getShopItem,
 	IShopItem,
-	IShoppingList,
+	shoppingList,
 	toggleChecked,
 } from '../typescript';
 
@@ -13,15 +14,17 @@ interface IProps {
 	shoppingList: IShopItem[];
 	toggleChecked: toggleChecked;
 	deleteShopItem: deleteShopItem;
+	getShopItem: getShopItem;
 }
 
 export default function ShoppingList({
 	shoppingList,
 	toggleChecked,
 	deleteShopItem,
+	getShopItem,
 }: IProps) {
-	const checkedShoppingList: IShoppingList = [];
-	const uncheckedShoppingList: IShoppingList = [];
+	const checkedShoppingList: shoppingList = [];
+	const uncheckedShoppingList: shoppingList = [];
 
 	shoppingList.map((item) => {
 		if (item.isCompleted) {
@@ -40,9 +43,11 @@ export default function ShoppingList({
 						shopItem={item}
 						toggleChecked={toggleChecked}
 						deleteShopItem={deleteShopItem}
+						getShopItem={getShopItem}
 					/>
 				))}
 			</>
+
 			{checkedShoppingList.length > 0 && <div className='list-seperator' />}
 			<>
 				{checkedShoppingList.map((item) => (
@@ -51,6 +56,7 @@ export default function ShoppingList({
 						shopItem={item}
 						toggleChecked={toggleChecked}
 						deleteShopItem={deleteShopItem}
+						getShopItem={getShopItem}
 					/>
 				))}
 			</>

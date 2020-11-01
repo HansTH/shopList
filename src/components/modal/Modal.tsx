@@ -1,40 +1,45 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DivClickEvent } from '../../typescript';
+import {
+	cancelEditShopItem,
+	IShopItem,
+	updateShopItem,
+} from '../../typescript';
+import EditItem from './EditItem';
 
 interface IProps {
-	cancelEditShopItem: () => void;
+	cancelEditShopItem: cancelEditShopItem;
 	isModalOpen: boolean;
+	selectedShopItem: IShopItem;
+	updateShopItem: updateShopItem;
 }
 
 interface IStyledProps {
 	isModalOpen: boolean;
 }
 
-export default function Modal({ cancelEditShopItem, isModalOpen }: IProps) {
-	const handleCancelEditShopItem = (e: DivClickEvent) => {
-		// stop bubbling the DOM tree
-		e.stopPropagation();
-		cancelEditShopItem();
-	};
-
+export default function Modal({
+	cancelEditShopItem,
+	isModalOpen,
+	selectedShopItem,
+	updateShopItem,
+}: IProps) {
 	return (
-		<OverlayStyles
-			onClick={(e: DivClickEvent) => handleCancelEditShopItem(e)}
-			isModalOpen={isModalOpen}
-		>
-			<ModalStyles
-				onClick={(e: DivClickEvent) => handleCancelEditShopItem(e)}
-				isModalOpen={isModalOpen}
-			></ModalStyles>
-		</OverlayStyles>
+		<>
+			<OverlayStyles onClick={cancelEditShopItem} isModalOpen={isModalOpen} />
+			<ModalStyles isModalOpen={isModalOpen}>
+				<EditItem
+					cancelEditShopItem={cancelEditShopItem}
+					shopItem={selectedShopItem}
+					updateShopItem={updateShopItem}
+				/>
+			</ModalStyles>
+		</>
 	);
 }
 
 const ModalStyles = styled.div<IStyledProps>`
 	display: ${({ isModalOpen }) => (isModalOpen ? 'block' : 'none')};
-	width: 300px;
-	height: 300px;
 	background-color: var(--white);
 	box-shadow: var(--box-shadow);
 	border-radius: var(--border-radius);
@@ -42,14 +47,17 @@ const ModalStyles = styled.div<IStyledProps>`
 	top: calc(50vh - 150px);
 	left: calc(50vw - 150px);
 	z-index: 1000;
+	overflow: hidden;
 	transition: all ease-in-out 0.3s;
+	z-index: 100;
 `;
 
 const OverlayStyles = styled.div<IStyledProps>`
 	display: ${({ isModalOpen }) => (isModalOpen ? 'block' : 'none')};
+	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.25);
+	background-color: rgba(0, 0, 0, 0.3);
 `;

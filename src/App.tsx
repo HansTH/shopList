@@ -3,12 +3,24 @@ import Modal from './components/modal/Modal';
 import Navbar from './components/Navbar';
 import ShoppingList from './components/ShoppingList';
 import { GlobalStyled } from './styles/GlobalStyles';
-import { IShopItem, IShoppingList } from './typescript';
+import { IShopItem, shoppingList } from './typescript';
 
 export default function App() {
-	const [shoppingList, setShoppingList] = useState<IShoppingList>([]);
-	const [isModalOpen, setIsModalOpen] = useState(true);
+	// initial shop item
+	const initialShopItem: IShopItem = {
+		id: 0,
+		date: 0,
+		isCompleted: false,
+		item: '',
+	};
 
+	const [shoppingList, setShoppingList] = useState<shoppingList>([]);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedShopItem, setSelectedShopItem] = useState<IShopItem>(
+		initialShopItem
+	);
+
+	// CREATE NEW SHOP ITEM
 	const newShopItem = (inputText: string) => {
 		// create new shop item
 		const newItem: IShopItem = {
@@ -22,6 +34,7 @@ export default function App() {
 		setShoppingList([...shoppingList, newItem]);
 	};
 
+	// TOOGLE SHOP ITEM COMPLEET
 	const toggleChecked = (shopItem: IShopItem) => {
 		// map through the shopping list and when both id's matched
 		// toogle the item isCompleted property with the NOT(!) operator
@@ -39,6 +52,7 @@ export default function App() {
 		setShoppingList(newList);
 	};
 
+	// DELETE SHOP ITEM
 	const deleteShopItem = (shopItem: IShopItem) => {
 		// return a new array that filter out the deleted shop item
 		const newList = shoppingList.filter((item) => item.id !== shopItem.id);
@@ -46,24 +60,56 @@ export default function App() {
 		setShoppingList(newList);
 	};
 
+	// CANCEL EDIT ITEM
 	const cancelEditShopItem = () => {
+		// reset shopItem to the intial value
+		setSelectedShopItem(initialShopItem);
+		// close modal
 		setIsModalOpen(false);
 	};
 
+	// GET SHOP ITEM
+	const getShopItem = (shopItem: IShopItem) => {
+		// open modal
+		setIsModalOpen(true);
+		// set the edit item to the shop
+		setSelectedShopItem(shopItem);
+	};
+
+	// UPDATE ITEM
+	const updateShopItem = (updateItem: IShopItem) => {
+		const updateList = shoppingList.map((item) => {
+			// if item matched, replace the item with the update item
+			if (item.id === updateItem.id) {
+				//  return the new update item
+				return (item = updateItem);
+			} else {
+				// if not matched return the current item
+				return item;
+			}
+		});
+
+		setShoppingList(updateList);
+		cancelEditShopItem();
+	};
+
 	return (
-		<div className='App'>
+		<div>
 			<GlobalStyled />
-			<Navbar handleNewShopItem={newShopItem} />
+			<Navbar newShopItem={newShopItem} />
 			<div className='container'>
 				<ShoppingList
-					shoppingList={shoppingList}
-					toggleChecked={toggleChecked}
-					deleteShopItem={deleteShopItem}
+					shoppingList={shoppingList} // show the shopping list
+					toggleChecked={toggleChecked} // toggle shop item checked
+					deleteShopItem={deleteShopItem} // delete the selected shop item
+					getShopItem={getShopItem} // get the selected shop item
 				/>
 			</div>
 			<Modal
-				cancelEditShopItem={cancelEditShopItem}
-				isModalOpen={isModalOpen}
+				cancelEditShopItem={cancelEditShopItem} // cancel edit
+				isModalOpen={isModalOpen} // modal open
+				selectedShopItem={selectedShopItem} // selected item to edit
+				updateShopItem={updateShopItem} // update the edit item
 			/>
 		</div>
 	);
