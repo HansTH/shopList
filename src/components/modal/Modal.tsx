@@ -4,11 +4,11 @@ import { ShoppingListContext } from '../../store/shoppingListState';
 import EditItem from './EditItem';
 
 export default function Modal() {
-	const { isModalOpen } = useContext(ShoppingListContext);
+	const { isModalOpen, cancelShoppingItem } = useContext(ShoppingListContext);
 
 	return (
 		<>
-			<OverlayStyles isOpen={isModalOpen!} />
+			<OverlayStyles isOpen={isModalOpen!} onClick={cancelShoppingItem} />
 			<ModalStyles isOpen={isModalOpen!}>
 				<EditItem />
 			</ModalStyles>
@@ -30,7 +30,6 @@ const ModalStyles = styled.div<IStyledProps>`
 	left: calc(50vw - 150px);
 	z-index: 1000;
 	overflow: hidden;
-	transition: all ease-in-out 0.3s;
 	z-index: 100;
 `;
 

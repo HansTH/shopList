@@ -30,6 +30,7 @@ const NavbarStyles = styled.nav`
 
 	p {
 		color: var(--white);
+		font-size: 1rem;
 	}
 
 	button {

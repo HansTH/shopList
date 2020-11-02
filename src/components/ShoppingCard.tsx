@@ -19,8 +19,8 @@ export default function ShoppingCard({ shopItem }: IProps) {
 	);
 
 	return (
-		<ShoppingCardStyles>
-			<h2>{shopItem.item}</h2>
+		<ShoppingCardStyles className='shopping-card'>
+			<p>{shopItem.item}</p>
 			<button onClick={() => toggleCompleted!(shopItem)} type='submit'>
 				<img
 					src={shopItem.isCompleted ? checkedIcon : uncheckedIcon}
@@ -48,11 +48,11 @@ const ShoppingCardStyles = styled.div`
 	display: flex;
 	align-items: center;
 	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-	border-radius: 4px;
+	border-radius: var(--border-radius);
 	padding: 0 0.2rem 0 0.5rem;
 	margin: 1rem 0;
 
-	h2 {
+	p {
 		width: 100%;
 		font-weight: normal;
 	}
