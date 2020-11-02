@@ -1,64 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ShoppingListContext } from '../store/shoppingListState';
 import styled from 'styled-components';
-import {
-	deleteShopItem,
-	getShopItem,
-	IShopItem,
-	shoppingList,
-	toggleChecked,
-} from '../typescript';
-
+import { IShopItem } from '../typescript';
 import ShoppingCard from './ShoppingCard';
 
-interface IProps {
-	shoppingList: IShopItem[];
-	toggleChecked: toggleChecked;
-	deleteShopItem: deleteShopItem;
-	getShopItem: getShopItem;
-}
+export default function ShoppingList() {
+	const { shoppingList } = useContext(ShoppingListContext);
 
-export default function ShoppingList({
-	shoppingList,
-	toggleChecked,
-	deleteShopItem,
-	getShopItem,
-}: IProps) {
-	const checkedShoppingList: shoppingList = [];
-	const uncheckedShoppingList: shoppingList = [];
+	let checkedShoppingList: IShopItem[] = [];
+	let uncheckedShoppingList: IShopItem[] = [];
 
-	shoppingList.map((item) => {
-		if (item.isCompleted) {
-			return checkedShoppingList.push(item);
-		} else {
-			return uncheckedShoppingList.push(item);
-		}
-	});
+	if (shoppingList! !== undefined) {
+		checkedShoppingList = shoppingList.filter((item) => item.isCompleted);
+		uncheckedShoppingList = shoppingList.filter((item) => !item.isCompleted);
+	}
 
 	return (
 		<ShoppingListStyles>
 			<>
 				{uncheckedShoppingList.map((item) => (
-					<ShoppingCard
-						key={item.id}
-						shopItem={item}
-						toggleChecked={toggleChecked}
-						deleteShopItem={deleteShopItem}
-						getShopItem={getShopItem}
-					/>
+					<ShoppingCard key={item.id} shopItem={item} />
 				))}
 			</>
 
 			{checkedShoppingList.length > 0 && <div className='list-seperator' />}
+
 			<>
-				{checkedShoppingList.map((item) => (
-					<ShoppingCard
-						key={item.id}
-						shopItem={item}
-						toggleChecked={toggleChecked}
-						deleteShopItem={deleteShopItem}
-						getShopItem={getShopItem}
-					/>
-				))}
+				{checkedShoppingList.map(
+					(item) =>
+						item.isCompleted && <ShoppingCard key={item.id} shopItem={item} />
+				)}
 			</>
 		</ShoppingListStyles>
 	);

@@ -1,39 +1,56 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import plusIcon from '../assets/images/plusIcon.png';
-import { ButtonClickEvent, newShopItem, InputChangeEvent } from '../typescript';
+import { ShoppingListContext } from '../store/shoppingListState';
+import { ButtonClickEvent, InputChangeEvent, IShopItem } from '../typescript';
 
-interface IProps {
-	newShopItem: newShopItem;
-}
-
-export default function InputField({ newShopItem }: IProps) {
+export default function InputField() {
 	const [inputText, setInputText] = useState('');
+
+	// disable submit when inputfield is empty
+	const disableSubmit = inputText === '';
+
+	const { newShoppingItem } = useContext(ShoppingListContext);
 
 	function handleClick(e: ButtonClickEvent, inputText: string) {
 		e.preventDefault();
-		// submit the inputText for a new shopping item
-		newShopItem(inputText);
-		// reset the inputText state
+
+		const newItem: IShopItem = {
+			id: Date.now(),
+			isCompleted: false,
+			item: inputText,
+			date: Date.now(),
+		};
+
+		newShoppingItem!(newItem);
+		// reset inputfield
 		setInputText('');
 	}
 
 	return (
-		<InputFieldStyles>
+		<InputFieldStyles disableSubmit={disableSubmit}>
 			<input
 				onChange={(e: InputChangeEvent) => setInputText(e.target.value)}
 				type='text'
 				value={inputText}
 				placeholder='Add new shopping item'
 			/>
-			<button onClick={(e) => handleClick(e, inputText)} type='submit'>
+			<button
+				onClick={(e) => handleClick(e, inputText)}
+				type='submit'
+				disabled={disableSubmit}
+			>
 				<img src={plusIcon} alt='plus icon' />
 			</button>
 		</InputFieldStyles>
 	);
 }
 
-const InputFieldStyles = styled.form`
+interface IStyledProps {
+	disableSubmit: boolean;
+}
+
+const InputFieldStyles = styled.form<IStyledProps>`
 	display: flex;
 	background-color: var(--dark-green);
 	width: 100%;
@@ -54,6 +71,11 @@ const InputFieldStyles = styled.form`
 	}
 
 	button img {
+		/* rotate plusIcon 45deg when inputfield is empty */
+		transform: rotate(
+			${({ disableSubmit }) => (disableSubmit ? '45deg' : '0deg')}
+		);
 		width: 40px;
+		transition: all ease-in-out 0.3s;
 	}
 `;

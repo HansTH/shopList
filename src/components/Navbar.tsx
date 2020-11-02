@@ -1,13 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { newShopItem } from '../typescript';
 import InputField from './InputField';
 
-interface IProps {
-	newShopItem: newShopItem;
-}
-
-export default function Navbar({ newShopItem }: IProps) {
+export default function Navbar() {
 	return (
 		<NavbarStyles>
 			<div className='container'>
@@ -15,7 +10,7 @@ export default function Navbar({ newShopItem }: IProps) {
 					<p>Welcome Hans</p>
 					<button>Login</button>
 				</div>
-				<InputField newShopItem={newShopItem} />
+				<InputField />
 			</div>
 		</NavbarStyles>
 	);

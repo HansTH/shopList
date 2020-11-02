@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import {
-	deleteShopItem,
-	getShopItem,
-	IShopItem,
-	toggleChecked,
-} from '../typescript';
+import { IShopItem } from '../typescript';
+import { ShoppingListContext } from '../store/shoppingListState';
 
 // Icons
 import uncheckedIcon from '../assets/images/uncheckedIcon.png';
@@ -15,21 +11,17 @@ import deleteIcon from '../assets/images/deleteIcon.png';
 
 interface IProps {
 	shopItem: IShopItem;
-	toggleChecked: toggleChecked;
-	deleteShopItem: deleteShopItem;
-	getShopItem: getShopItem;
 }
 
-export default function ShoppingCard({
-	shopItem,
-	toggleChecked,
-	deleteShopItem,
-	getShopItem,
-}: IProps) {
+export default function ShoppingCard({ shopItem }: IProps) {
+	const { toggleCompleted, deleteShoppingItem, editShoppingItem } = useContext(
+		ShoppingListContext
+	);
+
 	return (
 		<ShoppingCardStyles>
 			<h2>{shopItem.item}</h2>
-			<button onClick={() => toggleChecked(shopItem)} type='submit'>
+			<button onClick={() => toggleCompleted!(shopItem)} type='submit'>
 				<img
 					src={shopItem.isCompleted ? checkedIcon : uncheckedIcon}
 					alt='unchecked icon'
@@ -39,8 +31,8 @@ export default function ShoppingCard({
 			<button
 				onClick={
 					shopItem.isCompleted
-						? () => deleteShopItem(shopItem)
-						: () => getShopItem(shopItem)
+						? () => deleteShoppingItem!(shopItem)
+						: () => editShoppingItem!(shopItem)
 				}
 			>
 				<img

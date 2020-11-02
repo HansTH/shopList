@@ -1,45 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import {
-	cancelEditShopItem,
-	IShopItem,
-	updateShopItem,
-} from '../../typescript';
+import { ShoppingListContext } from '../../store/shoppingListState';
 import EditItem from './EditItem';
 
-interface IProps {
-	cancelEditShopItem: cancelEditShopItem;
-	isModalOpen: boolean;
-	selectedShopItem: IShopItem;
-	updateShopItem: updateShopItem;
-}
+export default function Modal() {
+	const { isModalOpen } = useContext(ShoppingListContext);
 
-interface IStyledProps {
-	isModalOpen: boolean;
-}
-
-export default function Modal({
-	cancelEditShopItem,
-	isModalOpen,
-	selectedShopItem,
-	updateShopItem,
-}: IProps) {
 	return (
 		<>
-			<OverlayStyles onClick={cancelEditShopItem} isModalOpen={isModalOpen} />
-			<ModalStyles isModalOpen={isModalOpen}>
-				<EditItem
-					cancelEditShopItem={cancelEditShopItem}
-					shopItem={selectedShopItem}
-					updateShopItem={updateShopItem}
-				/>
+			<OverlayStyles isOpen={isModalOpen!} />
+			<ModalStyles isOpen={isModalOpen!}>
+				<EditItem />
 			</ModalStyles>
 		</>
 	);
 }
 
+interface IStyledProps {
+	isOpen: boolean;
+}
+
 const ModalStyles = styled.div<IStyledProps>`
-	display: ${({ isModalOpen }) => (isModalOpen ? 'block' : 'none')};
+	display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
 	background-color: var(--white);
 	box-shadow: var(--box-shadow);
 	border-radius: var(--border-radius);
@@ -53,7 +35,7 @@ const ModalStyles = styled.div<IStyledProps>`
 `;
 
 const OverlayStyles = styled.div<IStyledProps>`
-	display: ${({ isModalOpen }) => (isModalOpen ? 'block' : 'none')};
+	display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
 	position: absolute;
 	top: 0;
 	left: 0;

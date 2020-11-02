@@ -1,32 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { ShoppingListContext } from '../../store/shoppingListState';
 import {
 	ButtonClickEvent,
-	cancelEditShopItem,
 	InputChangeEvent,
 	IShopItem,
 	SubmitFormEvent,
-	updateShopItem,
 } from '../../typescript';
 
-interface IProps {
-	cancelEditShopItem: cancelEditShopItem;
-	shopItem: IShopItem;
-	updateShopItem: updateShopItem;
-}
+const initialItem = {
+	id: 0,
+	date: 0,
+	isCompleted: false,
+	item: '',
+};
 
-export default function EditItem({
-	cancelEditShopItem,
-	shopItem,
-	updateShopItem,
-}: IProps) {
-	const [editItem, setEditItem] = useState<IShopItem>(shopItem);
+export default function EditItem() {
+	const [editItem, setEditItem] = useState<IShopItem>(initialItem);
+	const { cancelShoppingItem, editShopItem, updateShoppingItem } = useContext(
+		ShoppingListContext
+	);
 
 	useEffect(() => {
-		if (shopItem.item !== '') {
-			setEditItem(shopItem);
-		}
-	}, [shopItem]);
+		if (editShopItem !== undefined) setEditItem(editShopItem!);
+	}, [editShopItem]);
 
 	const handleChange = (e: InputChangeEvent) => {
 		e.preventDefault();
@@ -40,17 +37,19 @@ export default function EditItem({
 
 	const handleCancelEditShopItem = (e: ButtonClickEvent) => {
 		e.preventDefault();
-		cancelEditShopItem();
+		cancelShoppingItem!();
 	};
 
-	const handleSubmit = (e: SubmitFormEvent, updateItem: IShopItem) => {
+	const handleSubmit = (e: SubmitFormEvent) => {
 		e.preventDefault();
-		updateShopItem(updateItem);
+		updateShoppingItem!(editItem);
+		cancelShoppingItem!();
 	};
 
-	const handleUpdateShopItem = (e: ButtonClickEvent, updateItem: IShopItem) => {
+	const handleUpdateShopItem = (e: ButtonClickEvent) => {
 		e.preventDefault();
-		updateShopItem(updateItem);
+		updateShoppingItem!(editItem);
+		cancelShoppingItem!();
 	};
 
 	return (
@@ -58,7 +57,7 @@ export default function EditItem({
 			<h2>Edit Shop Item</h2>
 			<form
 				onSubmit={(e: SubmitFormEvent) => {
-					handleSubmit(e, editItem);
+					handleSubmit(e);
 				}}
 			>
 				<input
@@ -68,7 +67,7 @@ export default function EditItem({
 				/>
 				<button
 					type='button'
-					onClick={(e: ButtonClickEvent) => handleUpdateShopItem(e, editItem)}
+					onClick={(e: ButtonClickEvent) => handleUpdateShopItem(e)}
 				>
 					Update
 				</button>

@@ -5,19 +5,27 @@ export type DivClickEvent = React.MouseEvent<HTMLDivElement>;
 export type ReactChildrenComponent = React.ReactNode;
 export type SubmitFormEvent = React.FormEvent<HTMLFormElement>;
 
-// Functions types
-export type toggleChecked = (shopItem: IShopItem) => void;
-export type deleteShopItem = (shopItem: IShopItem) => void;
-export type cancelEditShopItem = () => void;
-export type getShopItem = (shopItem: IShopItem) => void;
-export type updateShopItem = (shopItem: IShopItem) => void;
-export type newShopItem = (inputText: string) => void;
-export type shoppingList = IShopItem[];
-
 // Interface
 export interface IShopItem {
 	id: number;
 	item: string;
 	isCompleted: boolean;
 	date: number;
+}
+
+export interface IShoppingListState {
+	shoppingList?: IShopItem[];
+	editShopItem?: IShopItem;
+	isModalOpen?: boolean;
+	newShoppingItem?: (newItem: IShopItem) => void;
+	toggleCompleted?: (toggleShopItem: IShopItem) => void;
+	deleteShoppingItem?: (shopItem: IShopItem) => void;
+	cancelShoppingItem?: () => void;
+	editShoppingItem?: (shopItem: IShopItem) => void;
+	updateShoppingItem?: (shopItem: IShopItem) => void;
+}
+
+export interface IShoppingListReducerAction {
+	type: string;
+	payload: IShopItem | any;
 }
