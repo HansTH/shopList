@@ -1,8 +1,12 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import plusIcon from '../assets/images/plusIcon.png';
-import { ShoppingListContext } from '../store/shoppingListState';
-import { ButtonClickEvent, InputChangeEvent, IShopItem } from '../typescript';
+import { ShoppingListContext } from '../../store/shoppingListState';
+import {
+	ButtonClickEvent,
+	InputChangeEvent,
+	IShopItem,
+} from '../../typescript';
 
 export default function InputField() {
 	const [inputText, setInputText] = useState('');

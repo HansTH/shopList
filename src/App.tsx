@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from './components/modal/Modal';
-import Navbar from './components/Navbar';
-import ShoppingList from './components/ShoppingList';
+import Navbar from './components/navbar/Navbar';
+import ShoppingList from './components/shoppingList/ShoppingList';
 import ShoppingListState from './store/shoppingListState';
 import { GlobalStyled } from './styles/GlobalStyles';
 

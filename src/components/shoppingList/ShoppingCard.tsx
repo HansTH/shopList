@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { IShopItem } from '../typescript';
-import { ShoppingListContext } from '../store/shoppingListState';
+import { IShopItem } from '../../typescript';
+import { ShoppingListContext } from '../../store/shoppingListState';
 
 // Icons
 import uncheckedIcon from '../assets/images/uncheckedIcon.png';
