@@ -4,10 +4,10 @@ import { IShopItem } from '../../typescript';
 import { ShoppingListContext } from '../../store/shoppingListState';
 
 // Icons
-import uncheckedIcon from '../assets/images/uncheckedIcon.png';
-import checkedIcon from '../assets/images/checkedIcon.png';
-import editIcon from '../assets/images/editIcon.png';
-import deleteIcon from '../assets/images/deleteIcon.png';
+import uncheckedIcon from '../../assets/images/uncheckedIcon.png';
+import checkedIcon from '../../assets/images/checkedIcon.png';
+import editIcon from '../../assets/images/editIcon.png';
+import deleteIcon from '../../assets/images/deleteIcon.png';
 
 interface IProps {
 	shopItem: IShopItem;

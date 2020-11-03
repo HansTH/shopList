@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { ShoppingListContext } from '../store/shoppingListState';
+import { ShoppingListContext } from '../../store/shoppingListState';
 import styled from 'styled-components';
-import { IShopItem } from '../typescript';
+import { IShopItem } from '../../typescript';
 import ShoppingCard from './ShoppingCard';
 
 export default function ShoppingList() {
@@ -17,11 +17,13 @@ export default function ShoppingList() {
 
 	return (
 		<ShoppingListStyles>
+			{/* if both lists are empty, show message */}
 			{uncheckedShoppingList.length === 0 &&
 			checkedShoppingList.length === 0 ? (
 				<h3>Your shopping list is empty. Add new item to your list.</h3>
 			) : (
 				<>
+					{/* if unchecked list is NOT empty, show the list with the unchecked shopping items */}
 					{uncheckedShoppingList.length > 0 ? (
 						uncheckedShoppingList.map((item) => (
 							<ShoppingCard key={item.id} shopItem={item} />
@@ -34,14 +36,17 @@ export default function ShoppingList() {
 					)}
 				</>
 			)}
-			{checkedShoppingList.length > 0 && <div className='list-seperator' />}
-
-			<>
-				{checkedShoppingList.map(
+			{/* if checked list is NOT empty show seperator line and the checked shopping items */}
+			{checkedShoppingList.length > 0 &&
+				checkedShoppingList.map(
 					(item) =>
-						item.isCompleted && <ShoppingCard key={item.id} shopItem={item} />
+						item.isCompleted && (
+							<>
+								<div className='list-seperator' />
+								<ShoppingCard key={item.id} shopItem={item} />
+							</>
+						)
 				)}
-			</>
 		</ShoppingListStyles>
 	);
 }
