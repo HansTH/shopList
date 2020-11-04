@@ -15,6 +15,15 @@ export default function ShoppingList() {
 		uncheckedShoppingList = shoppingList.filter((item) => !item.isCompleted);
 	}
 
+	// function for sorting lists in alfabetical order
+	function sortListAlphabetical(list: IShopItem[]) {
+		list.sort((a, b) => {
+			if (a.item < b.item) return -1;
+			return 1;
+		});
+		return list;
+	}
+
 	return (
 		<ShoppingListStyles>
 			{/* if both lists are empty, show message */}
@@ -25,7 +34,7 @@ export default function ShoppingList() {
 				<>
 					{/* if unchecked list is NOT empty, show the list with the unchecked shopping items */}
 					{uncheckedShoppingList.length > 0 ? (
-						uncheckedShoppingList.map((item) => (
+						sortListAlphabetical(uncheckedShoppingList).map((item) => (
 							<ShoppingCard key={item.id} shopItem={item} />
 						))
 					) : (
@@ -37,16 +46,19 @@ export default function ShoppingList() {
 				</>
 			)}
 			{/* if checked list is NOT empty show seperator line and the checked shopping items */}
-			{checkedShoppingList.length > 0 &&
-				checkedShoppingList.map(
-					(item) =>
-						item.isCompleted && (
-							<>
-								<div className='list-seperator' />
-								<ShoppingCard key={item.id} shopItem={item} />
-							</>
-						)
-				)}
+			{checkedShoppingList.length > 0 && (
+				<>
+					<div className='list-seperator' />
+				</>
+			)}
+			{sortListAlphabetical(checkedShoppingList).map(
+				(item) =>
+					item.isCompleted && (
+						<>
+							<ShoppingCard key={item.id} shopItem={item} />
+						</>
+					)
+			)}
 		</ShoppingListStyles>
 	);
 }
